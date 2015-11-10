@@ -122,16 +122,18 @@
 	self = [super init];
     if (self) {
         _delegate = delegate;
+
+		// 
         NSMutableArray *newOtherButtonTitles;
         if (otherButtonTitles != nil) {
-            va_list args;
-            va_start(args, otherButtonTitles);
-            newOtherButtonTitles = [[NSMutableArray alloc] initWithObjects:otherButtonTitles, nil];
+            va_list args; // 用来保存宏va_arg与宏va_end所需信息
+            va_start(args, otherButtonTitles); // 使va_list指向起始的参数
+            newOtherButtonTitles = [@[otherButtonTitles] mutableCopy];
             id obj;
-            while ((obj = va_arg(args, id)) != nil) {
+            while ((obj = va_arg(args, id)) != nil) { // 检索参数
                 [newOtherButtonTitles addObject:obj];
             }
-            va_end(args);
+            va_end(args); // 释放va_list
         }
 
         [self setupWithTitle:title message:message cancelButtonTitle:cancelButtonTitle otherButtonTitles:newOtherButtonTitles];
